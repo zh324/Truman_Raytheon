@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+    <meta charset="UTF-8">
+        
+    <title>Truman</title>
+
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    -->
+
+    <script> window.$ = window.jQuery = require ('jquery');</script>
+
+    <!-- Compiled and minified JavaScript 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    -->
+    <!--<script src = "main.js"></script>-->
+
+</head>
+<body>
+        
+
+    
+
+    <!--
+    <nav>
+        <div class="nav-wrapper">
+            <a class="brand-logo center">Truman</a>
+        </div>
+    </nav>
+    
+    <form>
+        <div>
+            <input type = "file" accept = "video/*" />
+        </div>
+        <button class = "btn waves-effect waves-light" type = "submit"> Get Info</button>
+    </form>
+    -->
+
+    
+    
+
+    <!--<h1 id = "result"> </h1>-->
+    <!--
+    <a class="btn-floating btn-large waves-effect waves-light red" onClick="createAddWindow()"><i class="material-icons">add</i></a>
+    -->
+
+
+
+    <form class="ui form">
+        <div class="five wide field">
+          <label>Experiment Name</label>
+          <input type="text" name="first-name" placeholder="Experiment Name">
+        </div>
+        <div class="five wide field">
+          <label>Researcher</label>
+          <input type="text" name="last-name" placeholder="Researcher">
+        </div>
+        <div class="eight wide field">
+            <label>Platform</label>
+            <select class="ui fluid dropdown">
+                <option value="">Truman</option>
+            <option value="AL"> Alabama</option>
+            <option value="CA"> California</option>
+            </select>
+        </div>
+        <div class="five wide field">
+            <label>Description</label>
+            <input type="text" name="last-name" placeholder="Description">
+        </div>
+        <div class="five wide field">
+            <label>Condition</label>
+            <input type="text" name="last-name" placeholder="Condition">
+        </div>
+        <!--
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>I agree to the Terms and Conditions</label>
+          </div>
+        </div>
+        -->
+        <button class="ui primary button" type="submit">Save</button>
+    </form>
+
+
+
+    <div class="ui animated button" tabindex="0" onclick="clickButton()">
+        <div class="visible content">Back</div>
+        <div class="hidden content">
+          <i class="left arrow icon"></i>
+        </div>
+    </div>
+    <!--<input type = "button" value = "Login" onClick = "clickButton()"/>-->
+    <div class="ui animated button" tabindex="0" onclick="clickButton5()">
+        <div class="visible content">Next</div>
+        <div class="hidden content">
+          <i class="right arrow icon"></i>
+        </div>
+    </div>
+
+
+    <div id = "wrapper">
+      <!--<form action="/action_page.php">-->
+        <form method="post" enctype="multipart/form-data">
+            <div>
+              <label for="file">Choose file to upload</label>
+              <input type="file" id="xlf" name="xlfile" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv"/>
+            </div>
+            <div>
+              <button>Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <pre id="out"></pre>
+    <div id="htmlout"></div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+
+        document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const { path } = document.querySelector('input').files[0];
+
+            ipcRenderer.send('video:submit', path);
+ 
+        });
+
+        ipcRenderer.on('video:metadata', (event, duration) =>{
+            document.querySelector('#result').innerHTML = `Video is ${duration} seconds`;
+
+        });
+
+        function clickButton(){
+        window.location = 'autogenerate.html'
+        }
+        function clickButton2(){
+        window.location = 'demo.html'
+        }
+        function clickButton3(){
+        window.location = 'exportButtons.html'
+        }
+        function clickButton4(){
+        window.location = 'demotry.html'  
+        }
+        function clickButton5(){
+        window.location = 'demotry_faker.html'  
+        }
+        
+    </script>
+
+    
+    <ul class = "collection"></ul>
+    <script>
+        const ul = document.querySelector('ul');
+
+        // Add item
+        ipcRenderer.on('item: add', function(e, item){
+            ul.className = 'collection';
+            const li = document.createElement('li');
+            li.className = 'collection-item';
+            const itemText = document.createTextNode(item);
+            li.appendChild(itemText);
+            ul.appendChild(li);
+
+        });
+
+        // Clear items
+        ipcRenderer.on('item: clear', function(){
+            ul.innerHTML = '';
+            ul.className = '';
+        });
+
+        // Remove item
+        ul.addEventListener('dblclick', removeItem);
+        
+        function removeItem(e){
+            e.target.remove();
+            if(ul.children.length == 0){
+                ul.className = '';
+            }
+            
+        }
+    </script>
+    
+
+    <!--
+    <script>
+        // Handle create add window
+        function createAddWindow(){
+            // Create new window
+            addWindow = new BrowserWindow({
+                width: 300,
+                height: 200,
+                title: 'Add Shopping List Item'
+            });
+            // load html into window
+            addWindow.loadURL(url.format({
+                pathname: path.join(__dirname,'addWindow.html'),
+                protocol: 'file:',
+                slashes: true
+            }));   
+
+            // Garbage Collection Handle
+            addWindow.on('close', function(){
+                addWindow = null;
+            });
+        }
+
+        
+        //  Catch item: add
+        ipcMain.on('item:add', function(e, item){
+            mainWindow.webContents.send('item: add', item);
+            addWindow.close();
+        });
+        
+    </script>
+    -->
+
+
+
+
+    
+    <link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css">
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <script src="semantic/out/semantic.min.js"></script>
+
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+   
+    <!--<script type="text/javascript" src="materialize/js/materialize.min.js"></script> 
+    -->
+
+<!--
+    <script src="faker.js-4.1.0/build/build/faker.js"> </script>
+        
+    <script>
+
+        /*
+        var name = faker.name.findName();
+        var randomEmail = faker.internet.email();
+        //var companyName = faker.company.findName();
+        console.log(faker.name.findName());
+        */
+
+        for (var i = 0; i < 10; i ++){
+            jQuery('<div/>',{
+                text: faker.name.findName() + '-' + faker.company.companyName()
+            }).appendTo('#wrapper');
+
+            jQuery('<img/>', {
+                src: faker.image.avatar()                
+            }).appendTo('#wrapper');
+        }
+
+    </script>
+
+-->
+    <script lang="javascript" src="xlsx/dist/xlsx.full.min.js"></script>
+
+    <script>
+        if(typeof require !== 'undefined') XLSX = require('xlsx');
+        var workbook = XLSX.readFile('Pokemon.xlsx');
+        var worksheet = XLSX.utils.table_to_book(document.getElementById('xlf'));
+
+    </script>
+
+
+
+</body>
+</html>
+

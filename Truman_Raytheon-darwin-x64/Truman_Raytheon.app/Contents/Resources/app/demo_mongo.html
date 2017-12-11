@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<meta charset="UTF-8">
+        
+    
+        <head>
+            <title>Truman</title>
+        </head>
+    
+        <body>
+           <script> window.$ = window.jQuery = require ('jquery');</script>
+
+           <script async src = "http://www.google-analytics.com/ga.js"></script>
+           <script type="text/javascript" src="node_modules/ssf/shim.js"></script>
+    
+           <script type="text/javascript" src="xlsx/dist/xlsx.full.min.js"></script>
+           <!--<script type="text/javascript" src="js-xlsx-master/xlsx.js"></script>-->
+           <script src="node_modules/alertify/src/alertify.js"></script>
+           <script src="node_modules/spin/spin.js"></script>
+           <script type="text/javascript" src="node_modules/Blob/Blob.js"></script>
+           <script type="text/javascript" src="node_modules/file-saver/FileSaver.js"></script>
+           <!--<script src="bundle4.js"></script>-->
+           <script src="node_modules/systemjs/dist/system.js"></script>
+    
+    
+    
+    
+           <script type="text/javascript" src="xlsx/dist/xlsx.core.min.js"></script>
+           <script type="text/javascript" src="node_modules/tableexport/dist/js/tableexport.min.js"></script>
+    
+           <!--<script>
+                SystemJS.config({
+                baseURL:"", //Can write the path like /script and the browser will look inside the script folder
+                packages:{
+                    ".":{
+                        defaultExtension:'js'
+                    }
+                }
+              })
+              SystemJS.import("modify.js")
+            </script>-->
+          
+
+         <div class="ui animated button" tabindex="0" onclick="clickButton5()">
+        <div class="visible content">Back</div>
+        <div class="hidden content">
+          <i class="left arrow icon"></i>
+        </div>
+        </div>
+        <!--<input type = "button" value = "Login" onClick = "clickButton()"/>-->
+        <div class="ui animated button" tabindex="0" onclick="clickButton5()">
+            <div class="visible content">Next</div>
+            <div class="hidden content">
+              <i class="right arrow icon"></i>
+            </div>
+        </div>
+
+
+
+
+  
+
+
+
+
+
+
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+
+        /*document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const { path } = document.querySelector('input').files[0];
+
+            ipcRenderer.send('video:submit', path);
+ 
+        });
+
+        ipcRenderer.on('video:metadata', (event, duration) =>{
+            document.querySelector('#result').innerHTML = `Video is ${duration} seconds`;
+
+        });
+        */
+
+
+        function clickButton(){
+        window.location = 'newBot.html'
+        }
+        function clickButton2(){
+        window.location = 'demo.html'
+        }
+        function clickButton3(){
+        window.location = 'exportButtons.html'
+        }
+        function clickButton4(){
+        window.location = 'demo_mongo.html'  
+        }
+        function clickButton5(){
+        window.location = 'autogenerate.html'  
+        }
+        
+    </script>
+
+
+        <ul class = "collection"></ul>
+    <script>
+        const ul = document.querySelector('ul');
+
+        // Add item
+        ipcRenderer.on('item: add', function(e, item){
+            ul.className = 'collection';
+            const li = document.createElement('li');
+            li.className = 'collection-item';
+            const itemText = document.createTextNode(item);
+            li.appendChild(itemText);
+            ul.appendChild(li);
+
+        });
+
+        // Clear items
+        ipcRenderer.on('item: clear', function(){
+            ul.innerHTML = '';
+            ul.className = '';
+        });
+
+        // Remove item
+        ul.addEventListener('dblclick', removeItem);
+        
+        function removeItem(e){
+            e.target.remove();
+            if(ul.children.length == 0){
+                ul.className = '';
+            }
+            
+        }
+    </script>
+
+
+        <link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css">
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <script src="semantic/out/semantic.min.js"></script>
+
+
+
+
+
+
+
+
+    
+           <script>
+               function s2ab(s){
+                   if (typeof ArraryBuffer !== 'undefined'){
+                       var buf = new ArraryBuffer(s.length);
+                       var view = new Unit8Arrary(buf);
+                       for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+                       return buf;
+                   } else{
+                       var buf = new Array(s.length);
+                       for (var i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+                       return buf;
+                   }
+               }
+    
+               function export_table_to_excel(id, type, fn){
+                   var wb = XLSX.utils.table_to_book(document.getElementById(id), {sheet:"Sheet JS"});
+                   var wbout = XLSX.write(wb, {bookType: type, bookSST: true, type: 'binary'});
+                   var fname = fn || 'test.' + type;
+    
+                   try{
+                       saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), fname);
+                   } catch(e) {if (typeof console != 'undefined') console.log(e, wbout);}
+                   return wbout;
+               }
+    
+               function doit (type, fn) {return export_table_to_excel('table', type || 'xlsx', fn);}
+           </script>
+    
+           <pre>
+               <div id = "drop">
+                   <b> Drop a spreadsheet file here</b>
+               </div>
+    
+           </pre>
+    
+    
+    
+    
+           <div id="xport">
+
+                        <p id = "xportxlsx" class="xport">
+                          <input type = "submit" value = "Click Here to Download!" onclick="downloadme()">
+                        </p>
+                        <p id = "xlsxbtn" class = "btn"></p>
+
+            </div>
+
+
+            <button onclick="parse_doc()"> Parse </button>
+            <button onclick="upload_doc(real_data)"> Upload </button>
+    
+           <article>
+                <b> Editable Data Table:</b>
+           <table id="default-table" border="1">
+               
+               <tbody>
+                   <tr>
+                       <td contenteditable="true">1</td>
+                       <td contenteditable="true">2</td>
+                       <td contenteditable="true">3</td>
+                       <td contenteditable="true">4</td>
+                   </tr>
+               
+
+    
+    
+                   <tr>
+                       <td contenteditable="true"> This </td>
+                       <td contenteditable="true"> flower </td>
+                       <td contenteditable="true"> is </td>
+                       <td contenteditable="true"> beautiful </td>
+                   </tr>
+    
+                   <tr>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                   </tr>
+    
+    
+                   <tr>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                   </tr>
+    
+    
+                   <tr>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                   </tr>
+    
+    
+                   <tr>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                        <td contenteditable="true"> This </td>
+                   </tr>
+    
+    
+               </tbody>
+           </table>
+           </article>
+           
+         
+           <br>
+    
+    
+    
+    
+           
+           <table id="xport">
+               <tbody>
+                   <tr>
+                       <td>
+                           <pre> XLSX Excel 2007 + XML</pre>
+                       </td>
+                       <td>
+                           <p id = "xportxlsx" class="xport">
+                             <input type = "submit" value = "Export to XLS" onclick="downloadme()">
+                           </p>
+                           <p id = "xlsxbtn" class = "btn"></p>
+                       </td>
+                   </tr>
+                  
+                   <tr>
+                       <td>
+                           <pre> XLSB Excel 2007 + Binary</pre>
+                       </td>
+                       <td>
+                           <p id = "xportxlsb" class = "xport">
+                               <input type = "submit" value = "Export to XLSB" class="doit('xlsb);">
+                           </p>
+    
+                           <p id = "xlsbbtn" class = "btn"></p>
+                       </td>
+                   </tr>
+    
+                   <tr>
+                       <td>
+                           <pre> Comma Separated Values</pre>
+                       </td>
+    
+                       <td>
+                           <p id = "xportcsv" class = "xport">
+                               <input type = "submit" value = "Export to CSV!" class = "doit('csv');">
+                           </p>
+                           <p id = "csvbtn" class = "btn"></p>
+                       </td>
+                   </tr>
+               </tbody>
+           </table>
+    
+           
+           <script type="text/javascript">var fallback = false;</script>
+    
+           <script type="text/javascript">
+               function tableu(pid, iid, fmt, ofile){
+                   if (fallback){
+                       if (document.getElementById(iid)) document.getElementById(iid).hidden = true;
+                       Downloadify.create(pid,{
+                           swf: 'media/downloadify.swf',
+                           downloadImage: 'download.png',
+                           width: 100,
+                           height: 30,
+                           filename: ofile, data: function() { var o = doit(fmt, ofile); return window.btoa(o);},
+                           transparent: false,
+                           append: false,
+                           dataType: 'base64',
+                           onComplete: function(){ alert ('You File has been Saved!');},
+                           onCancel: function(){ alert ('You have cancelled the saving of this file.');},
+                           onError: function(){ alert ('You must put something in the File Contents or there will be nothing to save!');}
+    
+                       });
+                   } else document.getElementById(pid).innerHTML = "";
+               }
+    
+               tableu('xlsbbtn', 'xportxlsb', 'xlsb', 'test.xlsb');
+               tableu('xlsxbtn', 'xportxlsx', 'xlsx', 'test.xlsx');
+               tableu('csvbtn', 'xportcsv', 'csv', 'test.csv');
+    
+               var pending = false;
+               var rABS = typeof FileReader !== "undefined" && typeof FileReader.prototype !== "undefined"
+               && typeof FileReader.prototype.readAsBinaryString !== "undefined";
+    
+               function fixdata(data){
+                   var o = "", l = 0, w = 10240;
+                   for (; l<data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint8Array(data.slice(l*w, l*w+w)));
+                   o+=String.fromCharCode.apply(null, new Unit8Arrary(data.slice(l*w)));
+                   return o;
+               }
+    
+               function process_wb(wb){
+                   console.log(wb);
+                   var o = XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]], {editable:true}).replace("<table>", '<table id="default-table" border="1">')
+                   //spinner.stop();
+                   document.getElementById('default-table').outerHTML = o;
+                   pending = false;
+               }
+    
+               var XW = {
+                   worker: 'js-xlsx-master/xlsxworker.js',
+                   msg: 'xlsx'
+                }
+               //var Worker = require ('webworker');
+    
+               var drop = document.getElementById('drop');
+               var spinner;
+               function xw(data, cb){
+                   pending = true;
+                   spinner = new Spinner().spin(drop);
+                   //var Worker = require('webworker-threads').Worker;
+                   //var Threads= require('webworker-threads');
+                   var worker = new Worker(XW.worker);
+                   worker.onmessage = function(e) {
+                       switch(e.data.t){
+                           case 'ready': break;
+                           case 'e': pending = false; console.error(e.data.d);break;
+                           case XW.msg: cb(JSON.parse(e.data.d)); break; 
+                       }
+                   };
+    
+                   var arr = rABS ? data : btoa(fixdata(data));
+                   worker.postMessage({d:arr, b:rABS});
+    
+               }
+    
+               function handleDrop(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var files = e.dataTransfer.files;
+                    var i,f;
+                    for (i = 0, f = files[i]; i != files.length; ++i) {
+                        var reader = new FileReader();
+                        var name = f.name;
+                        reader.onload = function(e) {
+                            var data = e.target.result;
+                            //var wb = XLSX.read(data, {type: 'binary'});
+                            var arr = String.fromCharCode.apply(null, new Uint8Array(data));
+                            var wb = XLSX.read(btoa(arr), {type: 'base64'});
+                            process_wb(wb);
+                        };
+                        //reader.readAsBinaryString(f);
+                        reader.readAsArrayBuffer(f);
+                    }
+                }
+    
+    
+               function handleDragover(e) {
+                   e.stopPropagation();
+                   e.preventDefault();
+                   e.dataTransfer.dropEffect = 'copy';
+               }
+    
+               if (drop.addEventListener){
+                   drop.addEventListener('dragenter', handleDragover, false);
+                   drop.addEventListener('dragover', handleDragover, false);
+                   drop.addEventListener('drop', handleDrop, false);
+               }
+    
+           </script>
+    
+           <script>
+            
+                function downloadme(){
+                var DefaultTable = document.getElementById('default-table');
+                new TableExport(DefaultTable, {
+                    headers: true,                              // (Boolean), display table headers (th or td elements) in the <thead>, (default: true)
+                    footers: true,                              // (Boolean), display table footers (th or td elements) in the <tfoot>, (default: false)
+                    formats: ['xls', 'csv', 'txt'],             // (String[]), filetype(s) for the export, (default: ['xls', 'csv', 'txt'])
+                    filename: 'id',                             // (id, String), filename for the downloaded file, (default: 'id')
+                    bootstrap: false,                           // (Boolean), style buttons using bootstrap, (default: false)
+                    position: 'bottom',                         // (top, bottom), position of the caption element relative to table, (default: 'bottom')
+                    ignoreRows: null,                           // (Number, Number[]), row indices to exclude from the exported file(s) (default: null)
+                    ignoreCols: null,                           // (Number, Number[]), column indices to exclude from the exported file(s) (default: null)
+                    ignoreCSS: '.tableexport-ignore',           // (selector, selector[]), selector(s) to exclude cells from the exported file(s) (default: '.tableexport-ignore')
+                    emptyCSS: '.tableexport-empty',             // (selector, selector[]), selector(s) to replace cells with an empty string in the exported file(s) (default: '.tableexport-empty')
+                    trimWhitespace: true                        // (Boolean), remove all leading/trailing newlines, spaces, and tabs from cell text in the exported file(s) (default: true)
+                });
+                }
+                // **** jQuery **************************
+                //    $(DefaultTable).tableExport({
+                //        headers: true,
+                //        footers: true,
+                //        formats: ['xls', 'csv', 'txt'],
+                //        filename: 'id',
+                //        bootstrap: true,
+                //        position: 'bottom',
+                //        ignoreRows: null,
+                //        ignoreCols: null,
+                //        ignoreCSS: '.tableexport-ignore',
+                //        emptyCSS: '.tableexport-empty',
+                //        trimWhitespace: false
+                //    });
+                // **************************************
+            
+            </script>
+
+
+            <script type="text/javascript">
+
+               const parser = function(raw){
+               let result = {};
+               result['username'] = raw[0];
+               result['name'] = raw[1];
+               result['age'] = parseInt(raw[2]);
+               result['picture'] = raw[3];
+               result['gender'] = raw[4];
+               result['bio'] = raw[5];
+               result['location'] = raw[6];
+               result['class'] = raw[7];
+               return result;
+              }
+              
+            </script>
+
+
+            <!--
+            <script type="text/javascript">
+              var tabletojson = require('tabletojson');
+              var tableAsJson = tabletojson.convert('/Users/z-boy/Documents/Class_Notes_Fall_2017/shoppinglist/demo.html');
+              console.log(tableAsJson);
+              var firstTableAsJson = tableAsJson[0];
+              console.log(firstTableAsJson);
+            </script>
+          -->
+
+              <script type="text/javascript">
+                
+                var real_data;
+
+              </script>
+
+              <script src="parseHTML/parseTable.js"></script>
+              <script>
+                function parse_doc (){
+
+
+                var parsed_table = document.querySelector("table");
+                console.log(parsed_table);
+                var data  = parseTable(parsed_table);
+                
+                var data_length = data.length;
+                console.log(data_length);
+                //var data2;
+                for (i=0; i<data_length - 1; i++){
+                    data[i] = data[i+1]
+                } 
+                data.pop();
+                real_data = data;
+                console.log(data);
+                }
+                // [
+                //   {
+                //     "name" : "dave",
+                //     "age" : "35",
+                //     "eye colour" : "blue"
+                //   }, {
+                //     "name" : "sarah",
+                //     "age" : "29",
+                //     "eye colour" : "brown"
+                //   }, {
+                //     "name" : "john",
+                //     "age" : "42",
+                //     "eye colour" : "green"
+                //   },
+                // ]
+              </script>
+
+
+
+              <script type="text/javascript" src="demo_mongodb_insert.js"> </script>
+
+              <!--
+              <script> 
+                function connectMongo(){
+                  var MongoClient = require('mongodb').MongoClient;
+                  console.log('MongoClient is',typeof MongoClient)
+                  var myCollection;
+                  const dbName = 'newDb';
+                  mongoose.connect('mongodb://localhost/' + dbName, { useMongoClient: true });
+                  mongoose.Promise = global.Promise;
+                    console.log("connected to the mongoDB!");
+                    myCollection = db.collection('test_collection');
+                  }
+                
+                connectMongo()
+                // const dbName = 'newDb';
+                //mongoose.connect('mongodb://localhost/' + dbName, { useMongoClient: true });
+                //mongoose.Promise = global.Promise;
+                 var mongoose = require('mongoose');
+
+                 const actorSchema = new mongoose.Schema({
+                     class: String, //normal, bully, victim, highread,cohort
+                     username: String,
+                     name: String,
+                     gender: String,
+                     age: Number,
+                     location: String,
+                     bio: String,
+                     picture: String
+                                 
+                    }, { timestamps: true });
+
+                                const Actor = mongoose.model('ActorModel', actorSchema);
+                                const actors = data;
+
+                                Actor.collection.insert(actors, onInsert);
+                                function onInsert(err) {
+                                    if (err) {
+                                        // TODO: handle error
+                                        console.log("error to store");
+                                    } else {
+                                        console.log('actors successfully stored.');
+                                    }
+                                    mongoose.connection.close();
+                                }
+              </script>
+            -->
+
+                
+
+
+        </body>
+    </html>

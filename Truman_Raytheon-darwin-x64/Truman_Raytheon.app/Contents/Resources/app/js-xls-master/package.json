@@ -1,0 +1,28 @@
+{
+	"name": "xlsjs",
+	"version": "0.4.12",
+	"author": "sheetjs",
+	"description": "(one day) a full-featured XLS parser and writer.  For now, primitive parser",
+	"keywords": [ "xls", "office", "excel", "spreadsheet" ],
+	"bin": {
+		"xls2csv": "./bin/xls2csv.njs"
+	},
+	"main": "./xls",
+	"dependencies": {
+		"cfb":">=0.8.0",
+		"ssf":"",
+		"codepage":"",
+		"commander":""
+	},
+	"devDependencies": {
+		"mocha":""
+	},
+	"repository": { "type":"git", "url":"git://github.com/SheetJS/js-xls.git" },
+	"scripts": {
+		"pretest": "git submodule init && git submodule update",
+		"test": "make mocha"
+	},
+	"bugs": { "url": "https://github.com/SheetJS/js-xls/issues" },
+	"license": "Apache-2.0",
+	"engines": { "node": ">=0.4" }
+}

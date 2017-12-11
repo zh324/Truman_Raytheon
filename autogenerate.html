@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+    <meta charset="UTF-8">
+        
+    <title>Truman</title>
+
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    -->
+
+    <script> window.$ = window.jQuery = require ('jquery');</script>
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+    <script src="Tabledit/jquery.tabledit.js"></script>
+
+
+
+
+</head>
+<body>
+        
+
+    
+
+
+
+<!--
+    <form class="ui form">
+        <div class="five wide field">
+          <label>Experiment Name</label>
+          <input type="text" name="first-name" placeholder="Experiment Name">
+        </div>
+        <div class="five wide field">
+          <label>Researcher</label>
+          <input type="text" name="last-name" placeholder="Researcher">
+        </div>
+        <div class="eight wide field">
+            <label>Platform</label>
+            <select class="ui fluid dropdown">
+                <option value="">Truman</option>
+            <option value="AL"> Alabama</option>
+            <option value="CA"> California</option>
+            </select>
+        </div>
+        <div class="five wide field">
+            <label>Description</label>
+            <input type="text" name="last-name" placeholder="Description">
+        </div>
+        <div class="five wide field">
+            <label>Condition</label>
+            <input type="text" name="last-name" placeholder="Condition">
+        </div>
+       
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>I agree to the Terms and Conditions</label>
+          </div>
+        </div>
+      
+        <button class="ui primary button" type="submit">Save</button>
+    </form>
+-->
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    
+
+    <div>
+        <button class="ui primary button" onclick="createTable()" >Create Table</button>
+    </div>
+
+    <form action="https://www.jqueryscript.net/demo/Creating-A-Live-Editable_Table-with-jQuery-Tabledit/" method="post" class="tabledit-form">
+
+    <div contenteditable>
+    <div id="divTable">
+    </div>
+    </div>
+    </form>
+
+
+
+
+
+
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+
+
+
+
+    <button class="ui primary button" onclick="parse_doc()"> Parse </button>
+    <button class="ui primary button" onclick="upload_doc(real_data)"> Upload </button>
+
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+    <div class="ui animated button" tabindex="0" onclick="clickButton()">
+        <div class="visible content">Back</div>
+        <div class="hidden content">
+          <i class="left arrow icon"></i>
+        </div>
+    </div>
+    <!--<input type = "button" value = "Login" onClick = "clickButton()"/>-->
+    <div class="ui animated button" tabindex="0" onclick="clickButton4()">
+        <div class="visible content">Next</div>
+        <div class="hidden content">
+          <i class="right arrow icon"></i>
+        </div>
+    </div>
+
+
+
+  
+
+
+
+
+
+
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+
+        document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const { path } = document.querySelector('input').files[0];
+
+            ipcRenderer.send('video:submit', path);
+ 
+        });
+
+        ipcRenderer.on('video:metadata', (event, duration) =>{
+            document.querySelector('#result').innerHTML = `Video is ${duration} seconds`;
+
+        });
+
+
+
+        function clickButton(){
+        window.location = 'newBot.html'
+        }
+        function clickButton2(){
+        window.location = 'demo.html'
+        }
+        function clickButton3(){
+        window.location = 'exportButtons.html'
+        }
+        function clickButton4(){
+        window.location = 'demo_mongo.html'  
+        }
+        function clickButton5(){
+        window.location = 'demo_faker.html'  
+        }
+        
+    </script>
+
+    
+    <ul class = "collection"></ul>
+    <script>
+        const ul = document.querySelector('ul');
+
+        // Add item
+        ipcRenderer.on('item: add', function(e, item){
+            ul.className = 'collection';
+            const li = document.createElement('li');
+            li.className = 'collection-item';
+            const itemText = document.createTextNode(item);
+            li.appendChild(itemText);
+            ul.appendChild(li);
+
+        });
+
+        // Clear items
+        ipcRenderer.on('item: clear', function(){
+            ul.innerHTML = '';
+            ul.className = '';
+        });
+
+        // Remove item
+        ul.addEventListener('dblclick', removeItem);
+        
+        function removeItem(e){
+            e.target.remove();
+            if(ul.children.length == 0){
+                ul.className = '';
+            }
+            
+        }
+    </script>
+    
+
+
+
+
+
+    
+    <link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css">
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <script src="semantic/out/semantic.min.js"></script>
+
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+   
+    <!--<script type="text/javascript" src="materialize/js/materialize.min.js"></script> 
+    -->
+
+    <script src="faker.js-4.1.0/build/build/faker.js"> </script>
+
+    <script type="text/javascript">
+        function createTable() {
+            // Create table.
+            var table = document.createElement('table');
+            var div = document.getElementById('divTable');
+            div.appendChild(table);
+            
+            table.setAttribute('class', 'ui celled padded table');
+            //$("#divTable table").attr('id','editable'); 
+            //$("#divTable table").attr('style','cursor:pointer;'); 
+
+            var row1 = table.insertRow(0);
+            // Insert New Column for Row1 at index '0'.
+            var row1col1 = row1.insertCell(0);
+            row1col1.innerHTML = 'username';
+            // Insert New Column for Row1 at index '1'.
+            var row1col2 = row1.insertCell(1);
+            row1col2.innerHTML = 'name';
+            // Insert New Column for Row1 at index '2'.
+            var row1col3 = row1.insertCell(2);
+            row1col3.innerHTML = 'age';
+            var row1col4 = row1.insertCell(3);
+            row1col4.innerHTML = 'picture';
+            var row1col5 = row1.insertCell(4);
+            row1col5.innerHTML = 'gender';
+            var row1col6 = row1.insertCell(5);
+            row1col6.innerHTML = 'bio';
+            var row1col7 = row1.insertCell(6);
+            row1col7.innerHTML = 'location';
+            var row1col8 = row1.insertCell(7);
+            row1col8.innerHTML = 'class';
+
+            //table.setAttribute('id', 'editable');
+            // Insert New Row for table at index '0'.
+            for(var i=1; i<51; i++){
+                var row = table.insertRow(i);
+                    
+                for(var j = 0; j < 8; j++){
+                    var rowcol = row.insertCell(j);
+                    if(j==0){
+                        var insert = faker.internet.userName();
+                    }
+                    else if(j==1){
+                        var insert = faker.name.findName();
+                       // var insert = faker.company.companyName();
+                    }
+                    else if(j==2){
+                        var insert = faker.random.number(130);}
+                    else if(j==3){
+                        var insert = faker.random.number(1000) + '.jpg';}
+                    else if(j==4){
+                        var num = faker.random.number(1000);
+
+                        if (num % 2 == 0){
+                            var insert = 'Male';
+                        }
+                        
+                        else{
+                            var insert = 'Female';
+
+                        }
+
+                        }
+                    else if(j==5){
+                        var insert = faker.random.words();}
+                    else if(j==6){
+                        var insert = faker.address.city() + ', ' + faker.address.stateAbbr();}
+                    
+                    else{
+                        
+                        //< img src="smiley.gif" alt="Smiley face" height="42" width="42">
+                        var num2 = faker.random.number(1000);
+                        if (num2 >= 100){
+                            var insert = 'normal';
+                        }
+                        else if (num2 < 100 && num2 >= 75){
+                            var insert = 'cohort';
+                        }
+                        else if (num2 < 75 && num2 >= 50){
+                            var insert = 'victim';
+                        }
+                        else if (num2 < 50 && num2 >= 25){
+                            var insert = 'bully';
+                        }
+
+                        else{
+                            var insert = 'highread';
+
+                        }
+
+                        }
+                        //var insert = faker.image.avatar();
+                    
+                                        
+                    rowcol.innerHTML = insert;
+                }
+            }
+
+        };
+
+          
+        
+    </script>
+
+    <!--<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <script src="mindmup-editabletable.js"></script>
+    <script>
+        $('#editable').editableTableWidget();
+    </script>
+    -->
+
+
+
+
+              <script type="text/javascript">
+                
+                var real_data;
+
+              </script>
+
+              <script src="parseHTML/parseTable.js"></script>
+              <script>
+                function parse_doc (){
+
+
+                var parsed_table = document.querySelector("table");
+                console.log(parsed_table);
+                var data  = parseTable(parsed_table);
+                
+                var data_length = data.length;
+                console.log(data_length);
+                //var data2;
+                for (i=0; i<data_length - 1; i++){
+                    data[i] = data[i+1]
+                } 
+                data.pop();
+                real_data = data;
+                console.log(data);
+                }
+                // [
+                //   {
+                //     "name" : "dave",
+                //     "age" : "35",
+                //     "eye colour" : "blue"
+                //   }, {
+                //     "name" : "sarah",
+                //     "age" : "29",
+                //     "eye colour" : "brown"
+                //   }, {
+                //     "name" : "john",
+                //     "age" : "42",
+                //     "eye colour" : "green"
+                //   },
+                // ]
+              </script>
+
+
+
+              <script type="text/javascript" src="demo_mongodb_insert.js"> </script>
+    
+
+    
+
+     <style type="text/css">
+        .article { width: 100%; background-color: #F9F9F9; font-family: Arial, "Bitstream Vera Sans" ,Helvetica,Verdana,sans-serif; color: #333; margin-top: 3px; }
+        .article td, table.article th { border-top-color: white; border-bottom: 1px solid #DFDFDF; color: #555; }
+        .article th { text-shadow: rgba(255, 255, 255, 0.796875) 0px 1px 0px; font-family: Arial, "Bitstream Vera Sans" ,Helvetica,Verdana,sans-serif; font-weight: bold; padding: 7px 7px 8px; text-align: left; line-height: 1.3em; font-size: 12px; background: #E3F2D4; border-right: 1px solid #DFDFDF; }
+        .article td { font-size: 12px; padding: 7px 7px 8px; vertical-align: top; border-right: 1px solid #DFDFDF; }
+
+        .editableTable { border:solid 1px; width:100% } 
+        .editableTable td { border:solid 1px; } 
+        .editableTable .cellEditing { padding: 0; } 
+        .editableTable .cellEditing input[type=text]{ width:100%; border:0; background-color:rgb(255,253,210); }
+
+    </style>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+

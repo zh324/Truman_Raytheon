@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+    <meta charset="UTF-8">
+        
+    <title>Truman</title>
+
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    -->
+    <script> window.$ = window.jQuery = require ('jquery');</script>
+
+    <!-- Compiled and minified JavaScript 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    -->
+
+
+</head>
+<style>
+div {
+    padding-top: 150px;
+    padding-right: 50px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+}
+p.describe{
+    font-fmaily : avenir;
+}
+</style>
+<body>
+        
+
+    
+
+    <!--
+    <nav>
+        <div class="nav-wrapper">
+            <a class="brand-logo center">Truman</a>
+        </div>
+    </nav>
+    
+    <form>
+        <div>
+            <input type = "file" accept = "video/*" />
+        </div>
+        <button class = "btn waves-effect waves-light" type = "submit"> Get Info</button>
+    </form>
+    -->
+
+    <div><center><img src="truman3.jpg" alt="Mountain View"></center></div>
+
+<center><font size = "4.5"><p class = "describe">Build your own Virtual Social Media Platform with Truman</p></font></center>
+<p></p>
+<p></p>
+<p></p>
+<center><button class="ui blue button" onclick="clickButton()">Import</button>
+<button class="ui blue button" onclick="clickButton2()">Generate</button></center>
+
+
+
+
+
+    <!--
+    <label><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+    <button class = "btn waves-effect waves-light" type = "submit" onClick = "clickButton()"> Log In 
+            <i class="material-icons right">send</i>
+    </button>   
+    -->
+    
+
+    <h1 id = "result"> </h1>
+
+
+    <script>
+
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+        /*
+        document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const { path } = document.querySelector('input').files[0];
+
+            ipcRenderer.send('video:submit', path);
+ 
+        });
+
+        ipcRenderer.on('video:metadata', (event, duration) =>{
+            document.querySelector('#result').innerHTML = `Video is ${duration} seconds`;
+
+        });
+        */
+
+
+        function clickButton(){
+        window.location = 'new_import.html'
+        }   
+        function clickButton2(){
+        window.location = 'new_generate.html'
+        }   
+
+    </script>
+
+    
+    <ul class = "collection"></ul>
+    <script>
+        const ul = document.querySelector('ul');
+
+        // Add item
+        ipcRenderer.on('item: add', function(e, item){
+            ul.className = 'collection';
+            const li = document.createElement('li');
+            li.className = 'collection-item';
+            const itemText = document.createTextNode(item);
+            li.appendChild(itemText);
+            ul.appendChild(li);
+
+        });
+
+        // Clear items
+        ipcRenderer.on('item: clear', function(){
+            ul.innerHTML = '';
+            ul.className = '';
+        });
+
+        // Remove item
+        ul.addEventListener('dblclick', removeItem);
+        
+        function removeItem(e){
+            e.target.remove();
+            if(ul.children.length == 0){
+                ul.className = '';
+            }
+            
+        }
+    </script>
+
+    
+
+
+    <link rel="stylesheet" type="text/css" href="semantic/out/semantic.min.css">
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <script src="semantic/out/semantic.min.js"></script>
+
+    
+            
+
+
+
+    
+    
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+   
+    <!--<script type="text/javascript" src="materialize/js/materialize.min.js"></script> 
+    -->
+
+    
+          
+
+
+
+</body>
+</html>
+

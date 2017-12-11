@@ -1,0 +1,17 @@
+{
+  "name": "within-document",
+  "repo": "component/within-document",
+  "description": "Check if an element is within the document",
+  "version": "0.0.3",
+  "keywords": [
+    "dom"
+  ],
+  "dependencies": {
+    "component/within-element": "0.1.0"
+  },
+  "development": {},
+  "scripts": [
+    "index.js"
+  ],
+  "license": "MIT"
+}
